@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14C1514" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="RSSFeed" representedClassName="RSSFeed" syncable="YES">
+        <attribute name="link" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="orderID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="RSSFeedPost" inverseName="feed" inverseEntity="RSSFeedPost" syncable="YES"/>
+    </entity>
+    <entity name="RSSFeedPost" representedClassName="RSSFeedPost" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" maxCount="1" deletionRule="Nullify" destinationEntity="RSSFeed" inverseName="posts" inverseEntity="RSSFeed" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="RSSFeed" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="RSSFeedPost" positionX="414" positionY="15" width="128" height="133"/>
+    </elements>
 </model>
