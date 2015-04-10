@@ -39,6 +39,12 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.refreshControl.refreshing){
+        [self.refreshControl endRefreshing];
+    }
+}
 - (void)feedParserDidStart:(MWFeedParser *)parser{
     NSLog(@"Started");
 }
@@ -78,6 +84,7 @@
 }
 
 - (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error{
+    NSLog(@"FAIL");
     if (self.refreshControl.refreshing){
         [self.refreshControl endRefreshing];
     }
@@ -97,7 +104,8 @@
 - (void)attempRefresh:(UIRefreshControl *)sender {
     [self.tempPostsArray removeAllObjects];
     NSURL *url = [NSURL URLWithString:self.currentFeedURL];
-    self.mwParser = [[MWFeedParser alloc] initWithFeedURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    self.mwParser = [[MWFeedParser alloc] initWithFeedRequest:request];
     self.mwParser.delegate = self;
     self.mwParser.feedParseType = ParseTypeFull;
     self.mwParser.connectionType = ConnectionTypeAsynchronously;
@@ -115,13 +123,8 @@
     }
     [self.tableView reloadData];
     if (self.shouldRefreshAfterLoading){
-        NSURL *url = [NSURL URLWithString:self.currentFeedURL];
-        self.mwParser = [[MWFeedParser alloc] initWithFeedURL:url];
-        self.mwParser.delegate = self;
-        self.mwParser.feedParseType = ParseTypeFull;
-        self.mwParser.connectionType = ConnectionTypeAsynchronously;
-        [self.mwParser parse];
         self.shouldRefreshAfterLoading=NO;
+        [self attempRefresh:nil];
     }
 }
 
