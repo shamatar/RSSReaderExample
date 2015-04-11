@@ -46,15 +46,14 @@
     }
 }
 - (void)feedParserDidStart:(MWFeedParser *)parser{
-    NSLog(@"Started");
+//    NSLog(@"Started");
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info{
-    NSLog(@"Did parse feed info");
+//    NSLog(@"Did parse feed info");
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item{
-//    dispatch_async(dispatch_get_main_queue(), ^{
         NSString *title = item.title ? item.title : @"[No Title]";
         NSString *link = item.link ? item.link : @"[No Link]";
         NSString *summary = item.summary ? item.summary : @"[No Summary]";
@@ -64,23 +63,18 @@
                            @"summary":summary,
                            @"content":content,};
         [self.tempPostsArray addObject:dict];
-//    });
 }
 
 - (void)feedParserDidFinish:(MWFeedParser *)parser{
-//    dispatch_async(dispatch_get_main_queue(), ^{
         NSArray *results = [[RSSReaderDataCode sharedInstance] postForFeedWithObjectID:self.currectObjectID];
         NSMutableArray *mutable = [NSMutableArray arrayWithArray:results];
         for (RSSFeedPost *post in mutable){
-//            NSManagedObjectContext *context = [[RSSReaderDataCode sharedInstance] managedObjectContext];
-//            [context refreshObject:post mergeChanges:YES];
             [[RSSReaderDataCode sharedInstance] removePostWithObjectID:[post objectID]];
         }
         for (NSDictionary *item in self.tempPostsArray){
             [[RSSReaderDataCode sharedInstance] createPostWithTitle:[item objectForKey:@"title"] Summary:[[item objectForKey:@"summary"] stringByConvertingHTMLToPlainText] Content:[item objectForKey:@"content"] Link:[item objectForKey:@"link"]  ForFeedObjectID:self.currectObjectID];
         }
         [self reloadData];
-//    });
 }
 
 - (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error{

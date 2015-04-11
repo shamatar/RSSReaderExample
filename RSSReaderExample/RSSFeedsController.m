@@ -89,6 +89,7 @@
     RSSFeedCell *cell = (RSSFeedCell*)[tableView dequeueReusableCellWithIdentifier:@"RSSFeedCell" forIndexPath:indexPath];
     RSSFeed *feed = (RSSFeed*)[self.dataArray objectAtIndex:indexPath.row];
     cell.feedNameLabel.text = feed.name;
+    cell.feedURLLabel.text = feed.link;
     return cell;
 }
 

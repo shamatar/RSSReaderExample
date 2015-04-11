@@ -10,5 +10,6 @@
 
 @interface RSSFeedCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *feedNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *feedURLLabel;
 
 @end

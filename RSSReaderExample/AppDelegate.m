@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "RSSReaderDataCode.h"
 
 @interface AppDelegate ()
 
@@ -16,8 +17,23 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    id done = [defaults objectForKey:@"FirstLaunchSetupDone"];
+    if (done!=nil){
+        if (!done){
+            [self doFirstLaunchSetup];
+        }
+    }
+    else{
+        [self doFirstLaunchSetup];
+    }
     // Override point for customization after application launch.
     return YES;
+}
+-(void)doFirstLaunchSetup{
+    [[RSSReaderDataCode sharedInstance] createFeedWithName:@"Test 1" URL:@"http://10000birds.com/feed/atom"];
+    [[RSSReaderDataCode sharedInstance] createFeedWithName:@"Test 2" URL:@"http://18thcenturyreadingroom.wordpress.com/feed/"];
+    [[RSSReaderDataCode sharedInstance] createFeedWithName:@"Test 3" URL:@"http://1tess.wordpress.com/feed/"];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
