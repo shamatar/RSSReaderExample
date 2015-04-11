@@ -27,7 +27,6 @@
     else{
         [self doFirstLaunchSetup];
     }
-    // Override point for customization after application launch.
     return YES;
 }
 -(void)doFirstLaunchSetup{
